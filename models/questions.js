@@ -6,13 +6,12 @@ const questionsSchema = new mongoose.Schema({
         required: true
     },
     options: [{
-
         type: mongoose.Schema.Types.ObjectId,
         ref: "options"
     }
     ]
 })
 
-const questions = new mongoose.model("questions", questionsSchema);
+const questions = mongoose.model("questions", questionsSchema);
 
 module.exports = questions;

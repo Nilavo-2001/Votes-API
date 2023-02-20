@@ -14,7 +14,7 @@ const opts = {
     }
 };
 
-const optionsSchema = new mongoose.Schema({
+const optionsSchema = new mongoose.Schema({ // schema for options
     title: {
         type: String,
         required: true
@@ -28,9 +28,12 @@ const optionsSchema = new mongoose.Schema({
         required: true
     }
 }, opts)
+
 optionsSchema.virtual('link_to_vote').get(function () {
+    // adding a virtual property to create a voting link dynamically
     return `http://localhost:8000/options/${this._id}/add_vote`;
 });
+
 const options = mongoose.model("options", optionsSchema);
 
 module.exports = options;

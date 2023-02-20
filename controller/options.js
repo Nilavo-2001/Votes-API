@@ -1,6 +1,7 @@
 const options = require('../models/options');
 const questions = require('../models/questions');
 module.exports.create = async (req, res) => {
+    // action to create an option
     const questionId = req.params.id;
     let code = 200;
     let message;
@@ -11,7 +12,7 @@ module.exports.create = async (req, res) => {
     try {
         var option = await options.create(curOption);
         const question = await questions.findById(questionId);
-        question.options.push(option.id);
+        question.options.push(option.id); // passing the option to the question
         await question.save();
         message = "option sucessfully created";
     } catch (error) {
@@ -23,16 +24,17 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.destroy = async (req, res) => {
+    // action to delete an option
     const optionId = req.params.id;
     let code = 200;
     let message;
     try {
         const option = await options.findById(optionId);
         const questionId = option.questionId;
-        await option.remove();
+        await option.remove(); // deleting the option doc from db
         const question = await questions.findById(questionId);
         const index = question.options.indexOf(optionId);
-        question.options.splice(index, 1);
+        question.options.splice(index, 1); // deleting the option object from the question doc
         await question.save();
         message = "option deleted sucessfully";
     } catch (error) {
@@ -43,6 +45,7 @@ module.exports.destroy = async (req, res) => {
 }
 
 module.exports.vote = async (req, res) => {
+    //action to add vote to an option
     const optionId = req.params.id;
     let code = 200;
     let message;
